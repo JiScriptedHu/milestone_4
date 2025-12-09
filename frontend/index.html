@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infosys Stock AI Dashboard</title>
+
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+        const user = localStorage.getItem('stockUser');
+        if (!user) {
+            window.stop();
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <h2>Infosys Stock AI</h2>
+                </div>
+
+                <nav>
+                    <a href="index.html" class="active">Dashboard</a>
+                    <a href="forecast.html">Forecast</a>
+                    <a href="chatbot.html">Chatbot</a>
+                </nav>
+            </div>
+
+            <!-- Quick View Section -->
+            <div class="watchlist-section">
+                <h3>Quick View</h3>
+
+                <div class="stock-list custom-scroll">
+                    <button onclick="fetchStock('^NSEI')">NIFTY 50</button>
+                    <button onclick="fetchStock('^BSESN')">S&P BSE SENSEX</button>
+                    <button onclick="fetchStock('MOTHERSON.NS')">Samvardhana Motherson International Limited</button>
+                    <button onclick="fetchStock('PNB.NS')">Punjab National Bank</button>
+                    <button onclick="fetchStock('ICICIGI.NS')">ICICI Lombard General Insurance Company Limited</button>
+                    <button onclick="fetchStock('NAUKRI.NS')">Info Edge (India) Limited</button>
+                    <button onclick="fetchStock('TVSMOTOR.NS')">TVS Motor Company Limited</button>
+                    <button onclick="fetchStock('SRF.NS')">SRF Limited</button>
+                    <button onclick="fetchStock('CANBK.NS')">Canara Bank</button>
+                    <button onclick="fetchStock('MARICO.NS')">Marico Limited</button>
+                    <button onclick="fetchStock('HDFCLIFE.NS')">HDFC Life Insurance Company Limited</button>
+                    <button onclick="fetchStock('TORNTPHARM.NS')">Torrent Pharmaceuticals Limited</button>
+                    <button onclick="fetchStock('INDHOTEL.NS')">The Indian Hotels Company Limited</button>
+                    <button onclick="fetchStock('JINDALSTEL.NS')">Jindal Steel Limited</button>
+                    <button onclick="fetchStock('SHRIRAMFIN.NS')">Shriram Finance Limited</button>
+                    <button onclick="fetchStock('BERGEPAINT.NS')">Berger Paints India Limited</button>
+                    <button onclick="fetchStock('ZYDUSLIFE.NS')">Zydus Lifesciences Limited</button>
+                    <button onclick="fetchStock('ICICIPRULI.NS')">ICICI Prudential Life Insurance Company Limited</button>
+                    <button onclick="fetchStock('PFC.NS')">Power Finance Corporation Limited</button>
+                    <button onclick="fetchStock('RECLTD.NS')">REC Limited</button>
+                    <button onclick="fetchStock('ADANIENSOL.NS')">Adani Energy Solutions Limited</button>
+                    <button onclick="fetchStock('BOSCHLTD.NS')">Bosch Limited</button>
+                    <button onclick="fetchStock('COLPAL.NS')">Colgate-Palmolive (India) Limited</button>
+                    <button onclick="fetchStock('NAM-INDIA.NS')">Nippon Life India Asset Management Limited</button>
+                    <button onclick="fetchStock('MUTHOOTFIN.NS')">Muthoot Finance Limited</button>
+                    <button onclick="fetchStock('PIIND.NS')">PI Industries Limited</button>
+                    <button onclick="fetchStock('PAGEIND.NS')">Page Industries Limited</button>
+
+                    <!-- US Stocks -->
+                    <button onclick="fetchStock('AAPL')">Apple Inc.</button>
+                    <button onclick="fetchStock('AMZN')">Amazon.com, Inc.</button>
+                    <button onclick="fetchStock('GOOGL')">Alphabet Inc.</button>
+                    <button onclick="fetchStock('MSFT')">Microsoft Corporation</button>
+                    <button onclick="fetchStock('NVDA')">NVIDIA Corporation</button>
+
+                    <!-- Automobiles -->
+                    <button onclick="fetchStock('BMW.DE')">BMW</button>
+                    <button onclick="fetchStock('F')">Ford Motor Company</button>
+                    <button onclick="fetchStock('MBG.DE')">Mercedes-Benz Group AG</button>
+                    <button onclick="fetchStock('TM')">Toyota Motor Corporation</button>
+                    <button onclick="fetchStock('TSLA')">Tesla, Inc.</button>
+
+                    <!-- Crypto -->
+                    <button onclick="fetchStock('BTC-USD')">Bitcoin USD</button>
+                    <button onclick="fetchStock('DOGE-USD')">Dogecoin USD</button>
+                    <button onclick="fetchStock('ETH-USD')">Ethereum USD</button>
+                    <button onclick="fetchStock('SOL-USD')">Solana USD</button>
+                </div>
+            </div>
+
+            <div class="logout-btn">Sign Out</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header>
+                <h1>Dashboard</h1>
+
+                <div class="search-box">
+                    <div class="search-wrapper">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Search (e.g. ^NSEI, INFY.NS)..." 
+                            autocomplete="off" 
+                            autocorrect="off" 
+                            autocapitalize="off" 
+                            spellcheck="false"
+                        >
+                        <span class="shortcut">Ctrl K</span>
+                    </div>
+                    <button onclick="handleSearch()">Search</button>
+                </div>
+            </header>
+
+            <!-- Stock Header -->
+            <section class="stock-header">
+                <div class="stock-title">
+                    <h2 id="fullName" class="full-name">--</h2>
+                    <h4 id="tickerSymbol">--</h4>
+
+                    <div class="badges">
+                        <span class="badge" id="exchangeBadge">LOADING...</span>
+                        <span class="badge date-badge" id="dataDate">--</span>
+                    </div>
+                </div>
+
+                <div class="stock-price">
+                    <h2 id="currentPrice">0.00</h2>
+                    <p id="priceChange">--</p>
+                </div>
+            </section>
+
+            <!-- Metrics -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <p class="label">Open</p>
+                    <p class="value" id="openPrice">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="label">High</p>
+                    <p class="value" id="highPrice">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="label">Low</p>
+                    <p class="value" id="lowPrice">--</p>
+                </div>
+
+                <div class="metric-card">
+                    <p class="label">Volume</p>
+                    <p class="value" id="volume">--</p>
+                </div>
+            </section>
+
+            <!-- Chart -->
+            <section class="chart-wrapper">
+
+                <div class="chart-toolbar">
+                    <div class="chart-type-selector">
+                        <button onclick="setChartType('area')" id="btnLine" class="active">Line</button>
+                        <button onclick="setChartType('candlestick')" id="btnCandle">Candle</button>
+                    </div>
+
+                    <div class="time-selector">
+                        <button onclick="updateChartPeriod('1M', this)">1M</button>
+                        <button onclick="updateChartPeriod('1Y', this)" class="active">1Y</button>
+                        <button onclick="updateChartPeriod('5Y', this)">5Y</button>
+                    </div>
+                </div>
+
+                <div id="stockChart"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>

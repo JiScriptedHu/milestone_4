@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+yfinance
+pandas
+pydantic
+numpy
+passlib[bcrypt]
+argon2_cffi
+tensorflow
+torch
+pytorch-forecasting
+pytorch-lightning
+prophet
+xgboost
+statsmodels
+scikit-learn
+joblib

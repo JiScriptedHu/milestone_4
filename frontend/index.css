@@ -1,0 +1,365 @@
+/* =========================================
+   VARIABLES & RESET
+   ========================================= */
+:root {
+    --accent-color: #000000;
+    --bg-color: #f8f9fa;
+    --border-color: #e9ecef;
+    --card-bg: #ffffff;
+    --green: #00C805;
+    --red: #FF5000;
+    --sidebar-width: 260px;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6c757d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    width: 100vw;
+}
+
+/* =========================================
+   LAYOUT GRID
+   ========================================= */
+.app-container {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+.sidebar {
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 24px;
+}
+
+.sidebar-header {
+    flex-shrink: 0;
+}
+
+.logo h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.sidebar nav a {
+    color: var(--text-secondary);
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.sidebar nav a.active {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* Watchlist */
+.watchlist-section {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-top: 30px;
+    min-height: 0;
+}
+
+.watchlist-section h3 {
+    color: var(--text-secondary);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.stock-list {
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.stock-list button {
+    background: var(--bg-color);
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 13px;
+    margin-bottom: 6px;
+    padding: 10px;
+    text-align: left;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.stock-list button:hover {
+    background: #e9ecef;
+}
+
+/* Logout Button */
+.logout-btn {
+    border-top: 1px solid var(--border-color);
+    color: var(--red);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/* Custom Scrollbar */
+.custom-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 4px;
+}
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 24px 32px;
+}
+
+/* Header */
+header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    padding: 8px 12px;
+    width: 280px;
+}
+
+.search-box input:focus {
+    border-color: var(--accent-color);
+}
+
+.search-box button {
+    background: var(--accent-color);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 8px 16px;
+}
+
+.search-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 280px;
+}
+
+.search-wrapper input {
+    padding-right: 60px;
+    width: 100%;
+}
+
+.search-wrapper .shortcut {
+    color: #888;
+    font-size: 14px;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    top: 47%;
+    transform: translateY(-50%);
+}
+
+/* =========================================
+   STOCK HEADER
+   ========================================= */
+.stock-header {
+    align-items: flex-end;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.stock-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-title h2.full-name {
+    color: var(--text-secondary);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.stock-title h4#tickerSymbol {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.badge {
+    background: #f1f3f5;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+}
+
+.date-badge {
+    background: #e7f5ff;
+    color: #1971c2;
+}
+
+.stock-price h2 {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.stock-price p {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 4px;
+    text-align: right;
+}
+
+/* =========================================
+   METRICS GRID
+   ========================================= */
+.metrics-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.metric-card .label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.metric-card .value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* =========================================
+   CHART SECTION
+   ========================================= */
+.chart-wrapper {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.chart-toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.chart-toolbar button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 6px;
+    padding: 6px 12px;
+    transition: all 0.2s;
+}
+
+.chart-toolbar button:hover {
+    background: #f1f3f5;
+}
+
+.chart-toolbar button.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+}
+
+#stockChart {
+    flex: 1;
+    max-width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    width: 100%;
+}
