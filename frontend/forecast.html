@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infosys Stock AI — Forecast</title>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="forecast.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+        if (!localStorage.getItem("stockUser")) {
+            window.stop();
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo"><h2>Infosys Stock AI</h2></div>
+                <nav>
+                    <a href="index.html">Dashboard</a>
+                    <a href="forecast.html" class="active">Forecast</a>
+                    <a href="chatbot.html">Chatbot</a>
+                </nav>
+            </div>
+
+            <div class="sidebar-controls">
+                <div class="control-group">
+                    <label class="control-label">Ticker Symbol</label>
+                    <input type="text" id="forecastTicker" class="sidebar-input" value="INFY.NS" placeholder="e.g. INFY.NS">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Target Date</label>
+                    <input type="date" id="targetDate" class="sidebar-input">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Select Models</label>
+                    <div class="model-checkbox-list">
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="linear_regression" checked>
+                            <span>Linear Regression</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="random_forest">
+                            <span>Random Forest</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="lstm">
+                            <span>LSTM (Deep Learning)</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="prophet">
+                            <span>FB Prophet</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="xgboost">
+                            <span>XGBoost</span>
+                        </label>
+
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="model" value="arima">
+                            <span>ARIMA</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <button id="predictBtn" class="sidebar-btn" onclick="runForecast()">
+                    <span class="btn-text">Run Analysis</span>
+                    <span class="loader"></span>
+                </button>
+            </div>
+
+            <div class="logout-btn">Sign Out</div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <header class="main-header">
+                <h1>Forecast</h1>
+            </header>
+
+            <!-- Stock Header -->
+            <section class="stock-header">
+                <div class="stock-title">
+                    <h2 id="fullName" class="full-name">--</h2>
+                    <h4 id="tickerSymbol">--</h4>
+
+                    <div class="badges">
+                        <span class="badge" id="exchangeBadge">LOADING...</span>
+                        <span class="badge date-badge" id="dataDate">--</span>
+                    </div>
+                </div>
+
+                <div class="stock-price">
+                    <h2 id="currentPrice">0.00</h2>
+                    <p id="priceChange">--</p>
+                </div>
+            </section>
+
+            <!-- Loading Message -->
+            <div id="loadingMessage" class="loading-msg" style="display:none;">
+                <div class="spinner"></div>
+                <span>Fetching data and running models... this may take a moment.</span>
+            </div>
+
+            <!-- Forecast Metrics -->
+            <section id="forecastResults" class="metrics-grid">
+                <div class="placeholder-text">Select models and run analysis to view predictions</div>
+            </section>
+
+            <!-- Historical Chart -->
+            <section class="chart-wrapper">
+                <div class="chart-header">
+                    <h3>Historical Analysis (with MA50 & MA100)</h3>
+                </div>
+                <div id="historicalChart"></div>
+            </section>
+
+            <!-- Model Prediction Charts -->
+            <section class="model-charts-wrapper">
+                <h3>Model Predictions</h3>
+                <div id="modelChartsContainer" class="model-charts-grid"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="forecast.js"></script>
+</body>
+</html>

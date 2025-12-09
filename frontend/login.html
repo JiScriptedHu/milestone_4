@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <div class="auth-card">
+
+        <!-- Login View -->
+        <div id="loginView">
+            <h1>Welcome Back</h1>
+
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="form-group">
+                    <input type="text" id="loginUser" placeholder="Username" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="loginPass" placeholder="Password" required>
+                </div>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="error-msg" id="loginError"></div>
+
+            <p class="toggle-text">
+                Don't have an account?
+                <span class="toggle-link" onclick="toggleView()">Sign Up</span>
+            </p>
+        </div>
+
+        <!-- Signup View -->
+        <div id="signupView" style="display: none;">
+            <h1>Create Account</h1>
+
+            <form onsubmit="event.preventDefault(); handleSignup();">
+                <div class="form-group">
+                    <input type="text" id="signupUser" placeholder="Choose Username" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="signupPass" placeholder="Choose Password" required>
+                </div>
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <div class="error-msg" id="signupError"></div>
+
+            <p class="toggle-text">
+                Already have an account?
+                <span class="toggle-link" onclick="toggleView()">Sign In</span>
+            </p>
+        </div>
+
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
